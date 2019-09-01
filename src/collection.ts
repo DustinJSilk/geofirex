@@ -198,7 +198,9 @@ internal, do not use
  */
 function createStream(input): Observable<any> {
   return new Observable(observer => {
-    const unsubscribe = input.onSnapshot(observer);
+    // TODO: Make this work for Firebase Web and Firebase Functions.
+    const unsubscribe = input.onSnapshot((val) => observer.next(val), err => observer.error(err));
+    // const unsubscribe = input.onSnapshot(observer);
     return { unsubscribe };
   });
 }
